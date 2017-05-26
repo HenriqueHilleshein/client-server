@@ -1,0 +1,47 @@
+#!flask/bin/python
+from flask import Flask, jsonify
+from random import randint
+from flask import request
+
+
+server = Flask(__name__)
+
+def random_number():
+    value = randint(0,99)
+    return value
+ 
+
+@server.route('/even', methods=['GET'])
+def get_even():
+    value = random_number()
+    if value % 2 == 0:
+        value = value+1	
+    return jsonify({'Increase': value})
+
+@server.route('/odd', methods=['GET'])
+def get_odd():
+    value = random_number()
+    if value % 2 == 1:
+        value = value-1	
+    return jsonify({'Increase': value})
+
+@server.route('/getvalue', methods=['POST'])
+def get_value():
+    if not request.json or not 'id_client' in request.json:
+        return "This isn't a JSON file or It's using a wrong API", 400
+    value = 0
+    id_client = request.json['id_client']
+    return jsonify({'Value': value})
+
+@server.route('/sendvalue', methods=['POST'])
+def new_value():
+    if not request.json or not 'value' in request.json:
+        return "This isn't a JSON file or It's using a wrong API", 400
+    value = int(request.json['value'])
+    if value < 0 or value-request.json['value'] !=0 or value >= 1000 :
+        return "Value need to be a nonnegative integer less than 1000", 400
+    print value
+    return "ok", 200
+
+if __name__ == '__main__':
+    server.run(debug=True)
