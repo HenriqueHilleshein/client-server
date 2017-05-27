@@ -20,44 +20,35 @@ class myThread (threading.Thread):
         elif self.threadID == 2:
             get_increase()
 
-def http_request(body,method,url):
+def http_request(body,url):
     connection = http.client.HTTPConnection(info.get_server())
     headers = {'Content-type': 'application/json'}
-    if method == 'GET':
-        connection.request("GET", url)
-        response = connection.getresponse()
-        connection.close()
-        if response.status != 200:
-            print("ERROR -" + method + " - " + url)
-            return 'ERROR'
-        else: 
-            return response.read()
-    else:
-        json_body = json.dumps(body)
-        connection.request("POST", url, json_body, headers)
-        response = connection.getresponse()
-        connection.close()
-        if response.status != 200:
-            print("ERROR -" + method + " - " + url)
-        else: 
-            return response.read()
+    json_body = json.dumps(body)
+    connection.request("POST", url, json_body, headers)
+    response = connection.getresponse()
+    connection.close()
+    if response.status != 200:
+        print("ERROR -" + "POST + " + " + url")
+    else: 
+        return response.read()
 
 def increaser():
     
     while 1:
         time.sleep(0.5)
         info.update_value(info.get_value()+info.get_increase_value())
-        body_sendvalue = {'client_id': info.get_client_id(), 'value': info.get_value()}
-        http_request(body_sendvalue,'POST','/sendvalue')
+        body_http = {'client_id': info.get_client_id(), 'value': info.get_value()}
+        http_request(body_http,'/sendvalue')
         
 
 def get_increase():
     while 1:
         time.sleep(randint(3,5))
+        body_http = {'client_id': info.get_client_id()}
         if randint(0,1) == 0:
-            http_response = http_request('','GET','/odd')   
+            http_response = http_request(body_http,'/odd')   
         else:
-            http_response = http_request('','GET','/even')    
+            http_response = http_request(body_http,'/even')    
         try:
             new_increase = json.loads(http_response.decode('utf-8'))
             info.update_increase_value(new_increase["increase"])
@@ -72,7 +63,7 @@ def main():
     server = input()
     info = Info(client_id,server)
     body_getvalue = {'client_id': client_id}
-    http_response = http_request(body_getvalue,'POST','/getvalue')    
+    http_response = http_request(body_getvalue,'/getvalue')    
     try:
         start_value = json.loads(http_response.decode('utf-8'))
         info.update_value(start_value["value"])
