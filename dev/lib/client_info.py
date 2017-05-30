@@ -1,29 +1,38 @@
 class Info:
-    def __init__(self,client_id,server):
-        self.client_id = client_id
-        self.value = 0
-        self.increase_value = 1
-        self.server=server
+    def __init__(self, client_id, server):
+        self.__client_id = client_id
+        self.__value = 0
+        self.__increment_value = 1
+        self.__server = server
+        self.__client_status = 'stoped'
+
 
     def get_value(self):
-        return self.value
+        return self.__value
 
     def get_client_id(self):
-        return self.client_id
+        return self.__client_id
 
-    def get_increase_value(self):
-        return self.increase_value
+    def get_increment_value(self):
+        return self.__increment_value
 
     def get_server(self):
-        return self.server
+        return self.__server
 
-    def update_value(self,new_value):
-        if (new_value>=100000):
-            self.value = new_value-100000
+    def client_status(self):
+        return self.__client_status
+
+    def update_value(self, new_value):
+        if (new_value >= 100000):
+            self.__value = new_value-100000
         else:
-            self.value = new_value
+            self.__value = new_value
 
-    def update_increase_value(self,new_increase_value):
-        self.increase_value = new_increase_value
+    def update_increment_value(self, new_increment_value):
+        self.__increment_value = new_increment_value
+
+    def update_client_status(self, new_status):
+        self.__client_status = new_status
+
 
 
