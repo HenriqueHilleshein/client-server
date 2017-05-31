@@ -15,8 +15,8 @@
 # The RESTful has 5 kind of resources(all of them use POST method):
 - /connect: It's used to begin the system. The client send the requisition with your respective ID to the server, and the server answer with the client's last value. If the client has not been registered, The server will register the client and answer 0 as value
 - /sendvalue: The client send your currently value with your respective ID to the server, and the server answer with HTTP 200 OK
-- /odd: The client send the requisition with your respective ID to the server, and the server answer with a random odd number in range 0-99
-- /even: The client send the requisition with your respective ID to the server, and the server answer with a random even number in range 0-99
+- /odd: The client send the requisition with your respective ID to the server, and the server answer with a random odd number in range 0-98
+- /even: The client send the requisition with your respective ID to the server, and the server answer with a random even number in range 1-99
 - /disconnect: The client send the requisition with your respective ID to the server, the server recoginaze the client disconnection and answer with HTTP 200 OK
 
 # The classes used to make objects(/dev/lib)
