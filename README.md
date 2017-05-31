@@ -10,17 +10,17 @@
 # Project Specifications:
 - To make this system work out, It was used RESTful Web Service(HTTP) to data transference, and JSON to organize the data in the HTTP Message Body
 - Each client has a maximum value of 100000. If a overflow happens, the value start from 0 again. Example: 999995 + 10 = 5
-- Every message that a client send to the server has your respective ID, because that's used by the log
+- Every message that a client send to the server has its respective ID, because that's used by the log
 
 # The RESTful has 5 kind of resources(all of them use POST method):
-- /connect: It's used to begin the system. The client send the requisition with your respective ID to the server, and the server answer with the client's last value. If the client has not been registered, The server will register the client and answer 0 as value
-- /sendvalue: The client send your currently value with your respective ID to the server, and the server answer with HTTP 200 OK
-- /odd: The client send the requisition with your respective ID to the server, and the server answer with a random odd number in range 0-98
-- /even: The client send the requisition with your respective ID to the server, and the server answer with a random even number in range 1-99
-- /disconnect: The client send the requisition with your respective ID to the server, the server recoginaze the client disconnection and answer with HTTP 200 OK
+- /connect: It's used to begin the system. The client send the requisition with its respective ID to the server, and the server answer with the client's last value. If the client has not been registered, the server will register the client and answer 0 as value
+- /sendvalue: The client send its currently value and its respective ID to the server, and the server answer with HTTP 200 OK
+- /odd: The client send the requisition with its respective ID to the server, and the server answer with a random odd number in range 0-98
+- /even: The client send the requisition with its respective ID to the server, and the server answer with a random even number in range 1-99
+- /disconnect: The client send the requisition with its respective ID to the server, the server recognize the client disconnection and answer with HTTP 200 OK
 
 # The classes used to make objects(/dev/lib)
-- client_class: The server make the instantiation of the your clients, and use it to store your clients informations.
-- client_info: The client make instantiation, and use it to store your own informations.
+- client_class: The server make the instantiation of the its clients, and use it to stores its clients informations.
+- client_info: The client make instantiation, and use it to stores its own informations.
 
 # Program requirements are in the doc/requirements.txt

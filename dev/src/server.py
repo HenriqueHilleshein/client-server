@@ -25,8 +25,9 @@ def find_client(client_id):
     return 'not found'
 
 
-# Create a random integer between 0 and 99.
-# The number is odd or even depending on the solicitation
+# Create a random integer between 0 and 99
+# that will be sent to the client.
+# The integer is odd or even depending on the solicitation
 def new_increment(request, number_type):
     json_variables = ['client_id']
     if not valid_json(request, json_variables):
@@ -51,7 +52,7 @@ def new_increment(request, number_type):
     return jsonify({'increment': increment})
 
 
-# This verify whether the object is a valid json
+# Verifies whether the object is a valid json
 def valid_json(request, json_variables):
     if not request.json:
         return False
@@ -61,7 +62,7 @@ def valid_json(request, json_variables):
     return True
 
 
-# This verify whether the number is a integer
+# Verifies whether the number is a integer
 def is_integer(value):
     if value - int(value) != 0:
         return False
@@ -163,7 +164,7 @@ def log():
                         filename=LOG_FOLDER+file_name,
                         filemode='w')
 
-
+# Gets the TCP port chosen by user and start the server
 def main():
     print 'What is the TCP port?'
     tcp_port = input()

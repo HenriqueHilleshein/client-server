@@ -13,7 +13,7 @@ path.append('../lib')
 from client_info import Info
 
 
-# Create the threads and run them
+# Create threads and runs them
 class myThread (threading.Thread):
     def __init__(self, threadID, name, counter):
         threading.Thread.__init__(self)
@@ -30,8 +30,9 @@ class myThread (threading.Thread):
             client_control()
 
 
-# This verify whether the coded object(utf-8) is
-# a valid json and return de json
+# Verifies whether the coded object(utf-8) is
+# a valid json, if the object is a valid json,
+# the function returns the json object
 def get_json(http_response, json_variables):
     try:
         content = json.loads(http_response.decode('utf-8'))
@@ -45,25 +46,25 @@ def get_json(http_response, json_variables):
     return content
 
 
-# This force the client status to "stoped"
+# Forces client's status to "stopped"
 def forced_stop():
-    print('ERROR - Stoping the program')
-    info.update_client_status('stoped')
+    print('ERROR - stopping the program')
+    info.update_client_status('stopped')
     print('Try a new connection("con") or quit("exit") or reconnect("recon")')
 
 
-# This update the client status
+# Updates client's status
 def update_status(new_status):
     if new_status == 'dis':
-        if info.client_status() == 'stoped':
+        if info.client_status() == 'stopped':
             print('Client already disconnected')
             return
-        info.update_client_status('stoped')
+        info.update_client_status('stopped')
         disconnect()
         print('Disconnected')
         return
     if new_status == 'exit':
-        if info.client_status() == 'stoped':
+        if info.client_status() == 'stopped':
             info.update_client_status('close')
             return
         info.update_client_status('close')
@@ -84,21 +85,21 @@ def update_status(new_status):
     print('Invalid operation')
 
 
-# This do the control of the client and make the user interface
+# This does the control of the client and creates the user interface
 def client_control():
     while 1:
         if info.client_status() == 'close':
             return
         if info.client_status() == 'running':
             print('Type "dis" to disconnect or "exit" to quit')
-        if info.client_status() == 'stoped':
+        if info.client_status() == 'stopped':
             print('Type "con" to new connection or'
                   + ' "exit" to quit or "recon" to reconnect')
         new_status = input()
         update_status(new_status)
 
 
-# This make the request to the HTTP server
+# Handles data requests to the HTTP server
 def http_request(body, url):
     headers = {'Content-type': 'application/json'}
     json_body = json.dumps(body)
@@ -120,10 +121,10 @@ def http_request(body, url):
                   + url)
 
 
-# This verify whether there is a disconnection request
+# Verifies whether there is a disconnection request
 # from the user or from a error detection
 def is_to_disconnect():
-    if info.client_status() == 'close' or info.client_status() == 'stoped':
+    if info.client_status() == 'close' or info.client_status() == 'stopped':
         return True
     return False
 
@@ -135,7 +136,7 @@ def disconnect():
         print('Server does not recognized the disconnection')
 
 
-# This increment the client value according the increment value each 500 ms
+# Increments the client's value according to the increment value every 500 ms
 def incrementer():
     while 1:
         time.sleep(0.5)
@@ -148,7 +149,7 @@ def incrementer():
             forced_stop()
 
 
-# Get a new increment value
+# Gets a new increment value
 def get_increment():
     while 1:
         time.sleep(randint(3, 5))
@@ -171,12 +172,12 @@ def get_increment():
                 forced_stop()
 
 
-# Start the client
+# Starts the client
 def start():
     body_http = {'client_id': info.get_client_id()}
     http_response = http_request(body_http, '/connect')
     if http_response == 'ERROR':
-        print('Program stopped because could not connect to the server')
+        print('Program stoppped because could not connect to the server')
     else:
         json_variables = ['value']
         content = get_json(http_response, json_variables)
@@ -185,7 +186,7 @@ def start():
             print('Connected')
             info.update_client_status('running')
         else:
-            print('Program stoped because could not get the start value')
+            print('Program stopped because could not get the start value')
     thread1 = myThread(1, "incrementer_thread", 1)
     thread2 = myThread(2, "get_increment_thread", 2)
     thread3 = myThread(3, "ctrl_thread", 3)
