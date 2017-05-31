@@ -1,0 +1,11 @@
+--- SERVER ---
+-flask(Python2.7)
+-virtualenv
+-Comment the lines using logging in the flask/lib64/python2.7/site-packages/werkzeug/serving.py.(Just dirty the system log showing the HTTP requests) 
+
+--- Client ---
+-Python3.5
+
+
+
+

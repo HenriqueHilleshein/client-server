@@ -5,7 +5,6 @@ import time
 import threading
 import json
 import http.client
-import errno
 from random import randint
 from socket import error as socket_error
 from sys import path
@@ -31,7 +30,8 @@ class myThread (threading.Thread):
             client_control()
 
 
-# This verify whether the coded object(utf-8) is a valid json and return de json
+# This verify whether the coded object(utf-8) is
+# a valid json and return de json
 def get_json(http_response, json_variables):
     try:
         content = json.loads(http_response.decode('utf-8'))
@@ -43,11 +43,6 @@ def get_json(http_response, json_variables):
             print('ERROR ---- (INVALID JSON VARIABLE)')
             return 'Invalid JSON'
     return content
-
-# This force the client status to "close"
-def forced_quit():
-    print('ERROR - Closing the program')
-    info.update_client_status('close')
 
 
 # This force the client status to "stoped"
@@ -64,8 +59,6 @@ def update_status(new_status):
             print('Client already disconnected')
             return
         info.update_client_status('stoped')
-        print('Disconnecting...')
-        time.sleep(5)
         disconnect()
         print('Disconnected')
         return
@@ -99,10 +92,10 @@ def client_control():
         if info.client_status() == 'running':
             print('Type "dis" to disconnect or "exit" to quit')
         if info.client_status() == 'stoped':
-            print('Type "con" to new connection or "exit" to quit or "recon" to reconnect')
+            print('Type "con" to new connection or'
+                  + ' "exit" to quit or "recon" to reconnect')
         new_status = input()
         update_status(new_status)
-
 
 
 # This make the request to the HTTP server
@@ -117,7 +110,7 @@ def http_request(body, url):
             connection.request("POST", url, json_body, headers)
             response = connection.getresponse()
             connection.close()
-        except socket_error as serr:
+        except (socket_error, UnicodeError):
             print('ERROR - SERVER UNREACHABLE')
             continue
         if response.status == 200:
@@ -127,7 +120,8 @@ def http_request(body, url):
                   + url)
 
 
-# This verify whether there is a disconnection request from the user or from a error detection
+# This verify whether there is a disconnection request
+# from the user or from a error detection
 def is_to_disconnect():
     if info.client_status() == 'close' or info.client_status() == 'stoped':
         return True
@@ -138,8 +132,8 @@ def is_to_disconnect():
 def disconnect():
     body_http = {'client_id': info.get_client_id()}
     if http_request(body_http, '/disconnect') == 'ERROR':
-        forced_quit()
-            
+        print('Server does not recognized the disconnection')
+
 
 # This increment the client value according the increment value each 500 ms
 def incrementer():

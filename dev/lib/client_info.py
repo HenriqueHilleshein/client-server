@@ -6,7 +6,6 @@ class Info:
         self.__server = server
         self.__client_status = 'stoped'
 
-
     def get_value(self):
         return self.__value
 
@@ -33,6 +32,3 @@ class Info:
 
     def update_client_status(self, new_status):
         self.__client_status = new_status
-
-
-

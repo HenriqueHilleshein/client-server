@@ -35,7 +35,7 @@ def new_increment(request, number_type):
     if client == 'not found':
         return not_found_client_message()
     if client.status() == 'disconnected':
-        return client_is_not_connected_message() 
+        return client_is_not_connected_message()
     increment = randint(0, 99)
     if number_type == 'even' and increment % 2 == 0:
         increment = increment+1
@@ -89,12 +89,13 @@ def disconnect():
     if client == 'not found':
         return not_found_client_message()
     if client.status() == 'disconnected':
-        return client_is_not_connected_message() 
+        return client_is_not_connected_message()
     client.update_status('disconnected')
     logging.info('[Client_id: '
                  + client.get_client_id()
                  + '] -- [Disconnected]')
     return "OK", 200
+
 
 @server.route('/even', methods=['POST'])
 def get_even():
@@ -139,7 +140,7 @@ def new_value():
     if client == 'not found':
         return not_found_client_message()
     if client.status() == 'disconnected':
-        return client_is_not_connected_message() 
+        return client_is_not_connected_message()
     value = request.json['value']
     if value < 0 or not is_integer(value) or value >= 100000:
         return "value need to be a nonnegative integer less than 100000", 400
@@ -154,22 +155,22 @@ def new_value():
 
 # The log instantiation
 def log():
-    file_name_log='server' + strftime("%Y_%m_%d_%H_%M_%S", gmtime())+ '.log'
-    print 'Log file name: ' + file_name_log
+    file_name = 'server' + strftime("%Y_%m_%d_%H_%M_%S", gmtime()) + '.log'
+    print 'Log file name: ' + file_name
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(levelname)-8s %(message)s',
                         datefmt='%d %b %Y %H:%M:%S',
-                        filename=LOG_FOLDER+file_name_log,
+                        filename=LOG_FOLDER+file_name,
                         filemode='w')
 
 
 def main():
     print 'What is the TCP port?'
-    tcp_port = input() 
+    tcp_port = input()
     log()
     print 'Running! Port: ' + str(tcp_port)
     server.run(host='0.0.0.0', port=tcp_port, debug=False,)
 
+
 if __name__ == '__main__':
     main()
-
